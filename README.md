@@ -19,7 +19,7 @@ In NTFS, files can be stored non-contiguously on a disk, leading to fragmentatio
 00000040  00 20 00 00 00 00 00 00 21 02 ef 07 01 0e 00 00  |. ......!.ï.....|
 00000050  ff ff ff ff 82 79 47 11 ff ff ff ff 82 79 47 11  |ÿÿÿÿ.yG.ÿÿÿÿ.yG.|
 ```
-In this instance data runs is ** 21 02 ef 07 01 0e **.
+In this instance data runs is **21 02 ef 07 01 0e**.
 The $DATA part of MFT starts with 80 and ends with ff ff ff ff 82 79 47 11. 
 The data runs is continuous hexadecimal strings after the trailer, separated by 00s from the front and back.
 
