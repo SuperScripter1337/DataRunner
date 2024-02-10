@@ -33,7 +33,13 @@ The data runs is continuous hexadecimal strings after the trailer, separated by 
 
 Given data runs:
 
-`Header| Length (Hex -> Dec)  | Offset (Hex -> Dec)        ||    32 | 43 03 -> 0343 (835)  | d1 bd 0b -> 0bbdd1 (769489)||    32 | c2 02 -> 02c2 (706)  | 44 80 01 -> 018044 (98372) ||    21 | 6d    -> 6d (109)    | bf 36    -> 36bf (14015)   ||    21 | 69    -> 69 (105)    | 39 f5    -> f539 (-2759)   ||`
+```
+Header| Length (Hex -> Dec)  | Offset (Hex -> Dec)        ||
+   32 | 43 03 -> 0343 (835)  | d1 bd 0b -> 0bbdd1 (769489)||
+   32 | c2 02 -> 02c2 (706)  | 44 80 01 -> 018044 (98372) || 
+   21 | 6d    -> 6d (109)    | bf 36    -> 36bf (14015)   || 
+   21 | 69    -> 69 (105)    | 39 f5    -> f539 (-2759)   ||
+```
 
 **Step-by-Step Analysis:**
 
