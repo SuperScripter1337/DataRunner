@@ -44,13 +44,9 @@ DataRunner automates the manual process described above, providing a user-friend
     
     Example command to analyze data runs and print start/end points:
     
-    arduinoCopy code
-    
     `python datarunner.py -dr "324303d1bd0b32c202448001216dbf36216939f52169d2f721600603315fd0f2fe315ec50f01211662a4"`
     
     Example command to reconstruct a file from a disk image:
-    
-    arduinoCopy code
     
     `python datarunner.py -dr "data run hex string" -f "/path/to/image.dd" -o "/path/to/output/file"`
     
