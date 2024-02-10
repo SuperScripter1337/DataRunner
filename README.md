@@ -25,9 +25,9 @@ The data runs is continuous hexadecimal strings after the trailer, separated by 
 
 **Data Runs Overview:** Each data run entry consists of three main components:
 
-1. **Header**: Indicates the offset size and length size in bytes.
+1. **Header**: Indicates the offset size and length size in bytes. For example: 32 means that you take the following 2 bytes after it as length and then 3 following that as an offset.
 2. **Length**: Specifies the number of clusters the run spans.
-3. **Offset**: Indicates the starting cluster (LCN - Logical Cluster Number) for the run. Positive values indicate a forward movement on the disk, while negative values indicate backward movement.
+3. **Offset**: Indicates the starting cluster (LCN - Logical Cluster Number) for the run. Positive values indicate a forward movement on the disk, while negative values indicate a backward movement.
 
 ### Example Data Run Analysis
 
