@@ -3,7 +3,7 @@ Forensic tool to decode data runs and extract files from disk images
 
 # DataRunner: Forensic Data Run Analyzer
 
-DataRunner is a powerful forensic analysis tool designed to reconstruct files from data runs extracted from NTFS (New Technology File System) disk images. It simplifies the process of analyzing and piecing together fragmented files, making it an invaluable resource for digital forensics investigators and enthusiasts. This document provides an overview of how to analyze data runs manually and explains how the DataRunner script operates.
+DataRunner is a little forensic analysis tool designed to reconstruct files from data runs extracted from NTFS (New Technology File System) disk images. It simplifies the process of analyzing and piecing together fragmented files, making it an invaluable resource for digital forensics investigators and enthusiasts. This document provides an overview of how to analyze data runs manually and explains how the DataRunner script operates.
 
 ## Understanding Data Runs
 
