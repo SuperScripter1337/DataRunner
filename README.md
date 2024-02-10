@@ -11,15 +11,58 @@ In NTFS, files can be stored non-contiguously on a disk, leading to fragmentatio
 
 ### Manual Analysis of Data Runs
 
-1. **Extract Data Runs**: First, extract the data run information from the MFT entry of the file you're interested in. This information is in hexadecimal format, indicating the length and offset of each run.
+**Data Runs Overview:** Each data run entry consists of three main components:
+
+1. **Header**: Indicates the offset size and length size in bytes.
+2. **Length**: Specifies the number of clusters the run spans.
+3. **Offset**: Indicates the starting cluster (LCN - Logical Cluster Number) for the run. Positive values indicate a forward movement on the disk, while negative values indicate backward movement.
+
+### Example Data Run Analysis
+
+Given data runs:
+
+`Header| Length (Hex -> Dec)  | Offset (Hex -> Dec)        ||    32 | 43 03 -> 0343 (835)  | d1 bd 0b -> 0bbdd1 (769489)||    32 | c2 02 -> 02c2 (706)  | 44 80 01 -> 018044 (98372) ||    21 | 6d    -> 6d (109)    | bf 36    -> 36bf (14015)   ||    21 | 69    -> 69 (105)    | 39 f5    -> f539 (-2759)   ||`
+
+**Step-by-Step Analysis:**
+
+1. **First Run Calculation:**
     
-2. **Interpret Data Runs**: Convert the hexadecimal values to decimal to understand the starting cluster and length of each run. Pay special attention to the offset values, as they can be positive (indicating forward movement on the disk) or negative (indicating backward movement).
+    - **Starting Location**: Multiply the NTFS cluster size (4096 bytes) by the first run's starting LCN.
+        - `4096 * 769489 = 3151826944 bytes | BBDD1000`
+    - **Length of the Run**: Multiply the NTFS cluster size by the run's length in clusters.
+        - `4096 * 835 = 3420160 bytes | 343000`
+    - **End Point**: Add the starting location to the length of the run and subtract 1.
+        - `3151826944 + 3420160 - 1 = 3155247103 bytes | BC113FFF`
+2. **Second Run Calculation:**
     
-3. **Calculate Cluster Locations**: Using the NTFS cluster size (commonly 4096 bytes), calculate the byte offset of each run's starting cluster. This will tell you where to start reading from the disk image.
+    - **Starting Point**: Add the offset of the second run to the LCN of the first run to calculate the new LCN.
+        - `769489 + 98372 = 867861`
+        - Convert to bytes: `867861 * 4096 = 3554758656 bytes | D3E15000`
+    - **End Point**: Add the length of the run to the starting point and subtract 1.
+        - `3554758656 + (706 * 4096) - 1 = 3557650431 bytes | D40D6FFF`
+3. **Third Run Calculation:**
     
-4. **Extract File Fragments**: For each run, extract the specified number of clusters starting from the calculated byte offset. This step requires accessing the disk image file.
+    - **Starting Point**: Calculate the LCN by adding the offset of the third run to the LCN of the second run.
+        - `867861 + 14015 = 881876`
+        - Convert to bytes: `881876 * 4096 = 3612164096 bytes | D74D4000`
+    - **End Point**: Add the length of the run to the starting point and subtract 1.
+        - `3612164096 + (109 * 4096) - 1 = 3612610559 bytes | D7540FFF`
+4. **Fourth Run Calculation:**
     
-5. **Reconstruct the File**: Concatenate the extracted file fragments in the order they appear in the data run list to reconstruct the original file.
+    - **Starting Point**: Adjust the LCN by adding the negative offset of the fourth run to the LCN of the third run.
+        - `881876 + (-2759) = 879117`
+        - Convert to bytes: `879117 * 4096 = 3600863232 bytes | D6A0D000`
+    - **End Point**: Add the length of the run to the starting point and subtract 1.
+        - `3600863232 + (105 * 4096) - 1 = 3601293311 bytes | D6A75FFF`
+
+### Understanding Offsets:
+
+- Offsets can be positive or negative. A positive offset indicates that the run starts forward from the previous LCN, while a negative offset indicates a backward movement.
+- Offsets are interpreted based on their first bit. If the first bit is 1 (in binary representation), the number is negative. Otherwise, it's positive.
+
+### Manual Reconstruction:
+
+Following the above steps allows for the manual calculation of start and end points for each data run. To reconstruct the file, extract data from each calculated start point to the end point from the disk image and concatenate these segments in order.
     
 
 ## How DataRunner Works
